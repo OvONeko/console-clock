@@ -5,6 +5,7 @@
 #include "console.h"
 #include "datetime.h"
 #include "shownumber.h"
+#include "getopt.h"
 
 bool showSecond = false;
 int transcount = 0;
@@ -80,11 +81,69 @@ bool setRGBColor(char* color) {
 }
 
 
-int main()
+int main(int argc, char** argv)
 {
 	Console console;
 	DateTime dt;
 	Box b = console.getBox();
+	if ((b.rows < 6) || (b.columns < 39)) {
+		std::cout << "Too small console!" << std::endl;
+		return 233;
+	}
+	char opt;
+	while ((opt = getopt(argc, argv, "hsc1SC:t:a:b")) != -1) {
+		switch (opt) {
+		case 'h':
+			std::cout << "usage: tty-clock [-hsc1Sb] [-C Color] [-t ticks] [-a nsticks]" << std::endl;
+			std::cout << "    -h         show this oage" << std::endl;
+			std::cout << "    -s         show second" << std::endl;
+			std::cout << "    -c         center the clock when start" << std::endl;
+			std::cout << "    -1         show once" << std::endl;
+			std::cout << "    -C Color   change color: 0~F or RGB color" << std::endl;
+			std::cout << "    -S         screen saver mode" << std::endl;
+			std::cout << "    -t ticks   set the delay between refresh (default:1000 ms)" << std::endl;
+			std::cout << "    -b         enable blinking" << std::endl;
+			std::cout << std::endl;
+			std::cout << "keyboard shortcuts:" << std::endl;
+			std::cout << "    Q: quit tty-clock" << std::endl;
+			std::cout << "    C: center the clock" << std::endl;
+			std::cout << "    M: Locate the clock at topleft" << std::endl;
+			std::cout << "    S: show/unshow the second" << std::endl;
+			std::cout << "    E: Change color" << std::endl;
+			return 0;
+		case 's':
+			showSecond = true;
+			break;
+		case 'c': {
+			b = console.getBox();
+			int clockwidth = showSecond ? 54 : 38;
+			spaceCount = (b.columns - clockwidth) / 2;
+			returnCount = (b.rows - 6) / 2;
+			break;
+		}
+		case 'C': {
+			if (optarg[0] == '#') {
+				if (!setRGBColor(optarg))
+					return 8;
+				break;
+			}
+			if (!setColor(optarg[0]))
+				return 8;
+			break;
+		}
+		case 'S':
+			screensaver = true;
+			break;
+		case 't':
+			tick = atoi(optarg);
+			break;
+		case 'b':
+			blinking = true;
+			break;
+		case '1':
+			showonce = true;
+		}
+	}
 	while (true) {
 		if (!showonce)
 			system("cls");
@@ -134,6 +193,18 @@ int main()
 				spaceCount = (b.columns - clockwidth) / 2;
 				returnCount = (b.rows - 6) / 2;
 				break;
+			}
+			case 'e': {
+				system("clear");
+				std::cout << "\033[0mSelect color:" << std::endl;
+				std::cout << "\033[40m    \033[41m    \033[42m    \033[43m    \033[44m    \033[45m    \033[46m    \033[47m    " << std::endl;
+				std::cout << "\033[40m   0\033[41m   1\033[42m   2\033[43m   3\033[44m   4\033[45m   5\033[46m   6\033[47m   7" << std::endl;
+				std::cout << "\033[100m    \033[101m    \033[102m    \033[103m    \033[104m    \033[105m    \033[106m    \033[107m    " << std::endl;
+				std::cout << "\033[100m   8\033[101m   9\033[102m   A\033[103m   B\033[104m   C\033[105m   D\033[106m   E\033[107m   F" << std::endl;
+				std::cout << "\033[0m" << std::endl;
+				do {
+					while (!console.isFlush());
+				} while (!setColor(console.getKey()));
 			}
 			case 'm':
 				spaceCount = 0;

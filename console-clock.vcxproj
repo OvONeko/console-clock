@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="console.h" />
     <ClInclude Include="datetime.h" />
+    <ClInclude Include="getopt.h" />
     <ClInclude Include="shownumber.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
