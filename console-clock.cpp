@@ -9,7 +9,6 @@
 bool showSecond = false;
 int transcount = 0;
 int tick = 1000;
-int ns = 0;
 std::string transcolor[5] = {
 	"\033[38;2;85;205;253m\033[48;2;85;205;253m",
 	"\033[38;2;246;170;183m\033[48;2;246;170;183m",
@@ -136,18 +135,6 @@ int main()
 				returnCount = (b.rows - 6) / 2;
 				break;
 			}
-			case 'e': {
-				system("clear");
-				std::cout << "\033[0mSelect color:" << std::endl;
-				std::cout << "\033[40m    \033[41m    \033[42m    \033[43m    \033[44m    \033[45m    \033[46m    \033[47m    " << std::endl;
-				std::cout << "\033[40m   0\033[41m   1\033[42m   2\033[43m   3\033[44m   4\033[45m   5\033[46m   6\033[47m   7" << std::endl;
-				std::cout << "\033[100m    \033[101m    \033[102m    \033[103m    \033[104m    \033[105m    \033[106m    \033[107m    " << std::endl;
-				std::cout << "\033[100m   8\033[101m   9\033[102m   A\033[103m   B\033[104m   C\033[105m   D\033[106m   E\033[107m   F" << std::endl;
-				std::cout << "\033[0m" << std::endl;
-				do {
-					while (!console.isFlush());
-				} while (!setColor(console.getKey()));
-			}
 			case 'm':
 				spaceCount = 0;
 				returnCount = 0;
@@ -173,7 +160,7 @@ int main()
 		}
 		if (showonce) break;
 		dt.Now();
-		Sleep(tick * 1000 + ns);
+		Sleep(tick);
 	}
 	return 0;
 }

@@ -7,7 +7,7 @@ Console::Console() {
 }
 
 bool Console::isFlush() {
-	return _kbhit();
+	return _kbhit() != 0;
 }
 
 int Console::getKey() {
