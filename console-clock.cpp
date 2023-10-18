@@ -91,7 +91,7 @@ int main(int argc, char** argv)
 		return 233;
 	}
 	char opt;
-	while ((opt = getopt(argc, argv, "hsc1SC:t:a:b")) != -1) {
+	while ((opt = getopt(argc, argv, "hsc1SC:t:b")) != -1) {
 		switch (opt) {
 		case 'h':
 			std::cout << "usage: tty-clock [-hsc1Sb] [-C Color] [-t ticks] [-a nsticks]" << std::endl;
