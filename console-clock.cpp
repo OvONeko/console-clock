@@ -195,7 +195,7 @@ int main(int argc, char** argv)
 				break;
 			}
 			case 'e': {
-				system("clear");
+				system("cls");
 				std::cout << "\033[0mSelect color:" << std::endl;
 				std::cout << "\033[40m    \033[41m    \033[42m    \033[43m    \033[44m    \033[45m    \033[46m    \033[47m    " << std::endl;
 				std::cout << "\033[40m   0\033[41m   1\033[42m   2\033[43m   3\033[44m   4\033[45m   5\033[46m   6\033[47m   7" << std::endl;
