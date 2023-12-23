@@ -205,6 +205,7 @@ int main(int argc, char** argv)
 				do {
 					while (!console.isFlush());
 				} while (!setColor(console.getKey()));
+				break;
 			}
 			case 'm':
 				spaceCount = 0;
